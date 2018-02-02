@@ -1,10 +1,10 @@
-#from __future__ import print_function
+from __future__ import print_function
 #I have created this function to use later on in my code
 def ttt():
 
     #empty array is called choices
     choices = []
-    
+
     for x in range (0, 9) :
         choices.append(str(x + 1))
 
