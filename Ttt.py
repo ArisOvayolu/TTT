@@ -1,4 +1,4 @@
-from __future__ import print_function
+#from __future__ import print_function
 #I have created this function to use later on in my code
 def ttt():
 
@@ -40,6 +40,31 @@ def ttt():
         if choices[choice - 1] == 'X' or choices [choice-1] == 'O':
             print("illegal move, please enter within free space")
             continue
+
+        if playerOneTurn :
+            choices[choice - 1] = 'X'
+        else :
+            choices[choice - 1] = 'O'
+
+        playerOneTurn = not playerOneTurn
+
+        for x in range (0, 3) :
+            y = x * 3
+            if (choices[y] == choices[(y + 1)] and choices[y] == choices[(y + 2)]) :
+                winner = True
+                printBoard()
+            if (choices[x] == choices[(x + 3)] and choices[x] == choices[(x + 6)]) :
+                winner = True
+                printBoard()
+
+        if((choices[0] == choices[4] and choices[0] == choices[8]) or
+           (choices[2] == choices[4] and choices[4] == choices[6])) :
+            winner = True
+            printBoard()
+
+    print ("Player " + str(int(playerOneTurn + 1)) + " wins!\n")
+
+
 
 
 
