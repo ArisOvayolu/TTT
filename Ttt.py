@@ -1,4 +1,3 @@
-#from __future__ import print_function
 #I have created this function to use later on in my code
 def ttt():
 
@@ -11,7 +10,7 @@ def ttt():
     #this will come in heavilt towards end of code, if winner = true game ends, if playeroneturn = true, player turn switches
     playerOneTurn = True
     winner = False
-
+    
 #here i am creating the board
     def printBoard() :
         print( '\n -----')
@@ -42,8 +41,10 @@ def ttt():
             continue
 
         if playerOneTurn :
+            #player1 gets x
             choices[choice - 1] = 'X'
         else :
+            #player2 gets O
             choices[choice - 1] = 'O'
 
         playerOneTurn = not playerOneTurn
@@ -57,15 +58,27 @@ def ttt():
                 winner = True
                 printBoard()
 
+        #player wins if...
         if((choices[0] == choices[4] and choices[0] == choices[8]) or
            (choices[2] == choices[4] and choices[4] == choices[6])) :
             winner = True
             printBoard()
-
+    #win statement
     print ("Player " + str(int(playerOneTurn + 1)) + " wins!\n")
+    playagain()
 
+def playagain():
 
+    playagain = raw_input("would you like to play again")
 
+    if playagain == "y" or playagain == "yes":
+        print("ok, thank you")
+        ttt()
+    elif playagain == "n" or playagain == "no":
+        print("ok, thank you")
+    else:
+        print("please enter either yes or no")
+        playagain()
 
 
 ttt()
