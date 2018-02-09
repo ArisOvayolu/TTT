@@ -1,4 +1,5 @@
 #I have created this function to use later on in my code
+#comment 9th feb
 def ttt():
 
     #empty array is called choices
@@ -10,7 +11,7 @@ def ttt():
     #this will come in heavilt towards end of code, if winner = true game ends, if playeroneturn = true, player turn switches
     playerOneTurn = True
     winner = False
-    
+
 #here i am creating the board
     def printBoard() :
         print( '\n -----')
