@@ -1,85 +1,145 @@
-#I have created this function to use later on in my code
-#comment 9th feb
-def ttt():
+from time import sleep
+from random import randint
+#init board as list
+print("=" * 40)
+print("             TIC TAC TOE")
+print("=" * 40)
+print()
+print("The places on the board are denoted as follows: ")
+boardExample = list(range(1,10))
+print(boardExample[:3])
+print(boardExample[3:6])
+print(boardExample[6:])
+print()
+#setting turn variable as boolean
+x = True
+won = False
 
-    #empty array is called choices
-    choices = []
+#this function runs the selection of what mode the user chooses
+def gamestart():
+    global players, oplayer, xplayer, mode, board
+    try:
+        board = [" ", " ", " ", " ", " ", " ", " ", " ", " ",]
+        players = int(input("Enter a 1 for a one player game and a 2 for a two player game, or a 3 to exit: "))
+        if players == 1:
+            xplayer = input("Player x enter your name: ")
+            mode = "e"
+            cpuEasy()
+        elif players == 2:
+            xplayer = input("Player x enter your name: ")
+            oplayer = input("Player o enter your name: ")
+            twoPlayer()
+    except:
+        print("Invalid input. ")
+        sleep(2)
+        gamestart()
 
-    for x in range (0, 9) :
-        choices.append(str(x + 1))
+#takes inputs from users and places them on the board
+def twoPlayer():
+    global xplayer, oplayer, x
+    try:
+        #check for users turn
+        if x == True:
+            #choose placement
+            xmove = int(input('{} {}: '.format(xplayer, "enter a number 1-9"))) - 1
+            #check if the space is free
+            if board[xmove] == " ":
+                board[xmove] = "x"
+            else:
+                print("That place is taken. try again")
+                twoPlayer()
+        else:
+            omove = int(input('{} {}: '.format(oplayer, "enter a number 1-9"))) - 1
+            if board[omove] == " ":
+                board[omove] = "o"
+            else:
+                print("That place is taken. try again")
+                twoPlayer()
+        #change current user
+        x = not x
+    #handles any invalid input
+    except:
+        print("invalid input")
+        twoPlayer()
+    print_my_board()
 
-    #this will come in heavilt towards end of code, if winner = true game ends, if playeroneturn = true, player turn switches
-    playerOneTurn = True
-    winner = False
+#this function is identical to the 2player function but instead generates a random integer intead of taking an input
+def cpuEasy():
+    global x, won, xplayer, oplayer
+    try:
+        #check for users turn
+        if x == True:
+            #choose placement
+            xmove = int(input('{} {}: '.format(xplayer, "enter a number 1-9"))) - 1
+            #check if the space is free
+            if board[xmove] == " ":
+                board[xmove] = "x"
+            else:
+                print("That place is taken. try again")
+                twoPlayer()
+        else:
+            omove = randint(0,9)
+            if board[omove] == " ":
+                board[omove] = "o"
+                omove += 1
+                print("CPU chooses space", omove)
+            else:
+                cpuEasy()
+        #change current user
+        x = not x
+    #handles any invalid input
+    except:
+        print("invalid input. ")
+        cpuEasy()
+    print_my_board()
 
-#here i am creating the board
-    def printBoard() :
-        print( '\n -----')
-        print( '|' + choices[0] + '|' + choices[1] + '|' + choices[2] + '|')
-        print( ' -----')
-        print( '|' + choices[3] + '|' + choices[4] + '|' + choices[5] + '|')
-        print( ' -----')
-        print( '|' + choices[6] + '|' + choices[7] + '|' + choices[8] + '|')
-        print( ' -----\n')
+#prints the lines of the board
+def print_my_board():
+    #printing each row of the board
+    print(board[:3])
+    print(board[3:6])
+    print(board[6:])
+    isWin()
 
-    while not winner :
-        printBoard()
-        if playerOneTurn :
-            print( "Player 1:")
-        else :
-            print( "Player 2:")
-        #try and except allows me to easily control where the player enters their x or o
-        try:
-            #choice is equal to where the player enters
-            choice = int(input(">> "))
-        except:
-            #error message
-            print("please enter a valid field")
-            continue
-        #if player enters x or 0 in filled space, error message appears
-        if choices[choice - 1] == 'X' or choices [choice-1] == 'O':
-            print("illegal move, please enter within free space")
-            continue
+#fuction checks all possible win scenarios
+def isWin():
+    global players, mode, won
+    #horizontal win combinations
+    if (board[0] == "x" and board[1] == "x" and board[2] == "x") or (board[3] == "x" and board[4] == "x" and board[5] == "x") or (board[6] == "x" and board[7] == "x" and board[8] == "x"):
+        print(xplayer, " wins")
+        won = True
+    elif (board[0] == "o" and board[1] == "o" and board[2] == "o") or (board[3] == "o" and board[4] == "o" and board[5] == "o") or (board[6] == "o" and board[7] == "o" and board[8] == "o"):
+        print(oplayer, " wins")
+        won = True
+    #vertical win combinations
+    elif (board[0] == "x" and board[3] == "x" and board[6] == "x") or (board[1] == "x" and board[4] == "x" and board[7] == "x") or (board[2] == "x" and board[5] == "x" and board[8] == "x"):
+        print(xplayer, " wins")
+        won = True
+    elif (board[0] == "o" and board[3] == "o" and board[6] == "o") or (board[1] == "o" and board[4] == "o" and board[7] == "o") or (board[2] == "o" and board[5] == "o" and board[8] == "o"):
+        print(oplayer, " wins")
+        won = True
+    #diagonal win combinations
+    elif (board[0] == "x" and board[4] == "x" and board[8] == "x") or (board[2] == "x" and board[4] == "x" and board[6] == "x"):
+        print(xplayer, " wins")
+        won = True
+    elif (board[0] == "o" and board[4] == "o" and board[8] == "o") or (board[2] == "o" and board[4] == "o" and board[6] == "o"):
+        print(oplayer, " wins")
+        won = True
+    #check if the board is full
+    elif " " not in board:
+        print("the game is a tie ")
+        won = True
+    #check if the game is over
+    if won == True:
+        print("Game over.")
+        gamestart()
+    #continue game if nobody has won
+    elif players == 1:
+        if mode == "e":
+            cpuEasy()
+        elif mode == "h":
+            cpuHard()
+    elif players == 2:
+        twoPlayer()
 
-        if playerOneTurn :
-            #player1 gets x
-            choices[choice - 1] = 'X'
-        else :
-            #player2 gets O
-            choices[choice - 1] = 'O'
-
-        playerOneTurn = not playerOneTurn
-
-        for x in range (0, 3) :
-            y = x * 3
-            if (choices[y] == choices[(y + 1)] and choices[y] == choices[(y + 2)]) :
-                winner = True
-                printBoard()
-            if (choices[x] == choices[(x + 3)] and choices[x] == choices[(x + 6)]) :
-                winner = True
-                printBoard()
-
-        #player wins if...
-        if((choices[0] == choices[4] and choices[0] == choices[8]) or
-           (choices[2] == choices[4] and choices[4] == choices[6])) :
-            winner = True
-            printBoard()
-    #win statement
-    print ("Player " + str(int(playerOneTurn + 1)) + " wins!\n")
-    playagain()
-
-def playagain():
-
-    playagain = raw_input("would you like to play again")
-
-    if playagain == "y" or playagain == "yes":
-        print("ok, thank you")
-        ttt()
-    elif playagain == "n" or playagain == "no":
-        print("ok, thank you")
-    else:
-        print("please enter either yes or no")
-        playagain()
-
-
-ttt()
+gamestart()
